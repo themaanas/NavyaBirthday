@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Navya's Birthday Party!</title>
+    <style>
+        @font-face {
+            font-family: 'balloon';
+            src: url('balloon.ttf');
+        }
+
+        .navCake {
+            width: 644px;
+            height: 480px;
+            border-radius: 50px;
+
+        }
+
+        .cakeWrapper {
+            width: 644px;
+            height: 480px;
+            margin: 0 auto;
+            margin-top: -30px;
+        }
+
+        h1 {
+            text-align: center;
+            font-family: balloon;
+            font-size: 100px;
+            color: #c68cff;
+            margin-top: 15px;
+        }
+
+        .leftB {
+            position: fixed;
+            left: 20px;
+            width: 28%;
+            bottom: -10px;
+        }
+
+        .rightB {
+            position: fixed;
+            right: 20px;
+            width: 28%;
+            bottom: -10px;
+            -webkit-transform: scaleX(-1);
+            transform: scaleX(-1);
+        }
+
+        .flame1 {
+            width: 15px;
+            position: relative;
+            left: 303px;
+            top: -393px;
+        }
+
+        .flame2 {
+            width: 15px;
+            position: relative;
+            left: 336px;
+            top: -393px;
+        }
+        button {
+            background: #c68cff;
+            outline: none;
+            border: none;
+            width: 200px;
+            height: 40px;
+            border-radius: 20px;
+            color: white;
+            font-weight: light;
+            font-size: 15px;
+            margin-right: 10px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #a35fe6;
+        }
+    </style>
+
+</head>
+
+<body>
+    <h1>Happy Birthday Navya!</h1>
+    <div class="cakeWrapper">
+        <img id="cake" class="navCake" src="https://user-images.githubusercontent.com/7114965/83829842-d4553e80-a6b1-11ea-936f-3b491c592590.jpg"></img>
+        <img id="flame1" class="flame1" src="https://user-images.githubusercontent.com/7114965/83829869-e46d1e00-a6b1-11ea-9afa-e5e0bf049707.png"></img>
+        <img id="flame2" class="flame2" src="https://user-images.githubusercontent.com/7114965/83829869-e46d1e00-a6b1-11ea-9afa-e5e0bf049707.png"></img>
+        <!-- <button onclick="candleBlow()">Blow the Candles!</button>
+        <button onclick="cutCake()">Cut the Cake!</button> -->
+    </div>
+    <!-- <img class="leftB" src="balloons.png"></img>
+        <img class="rightB" src="balloons.png"></img> -->
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-database.js"></script>
+    <script src="confetti.js"></script>
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyCDoIeX0VX4QlTF5Km8j3WV4j27hY2CVCU",
+            authDomain: "allowance-defa2.firebaseapp.com",
+            databaseURL: "https://allowance-defa2.firebaseio.com",
+            projectId: "allowance-defa2",
+            storageBucket: "allowance-defa2.appspot.com",
+            messagingSenderId: "23506758745",
+            appId: "1:23506758745:web:97b9c96716955664139548"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        var database = firebase.database();
+        var candleRef = firebase.database().ref('Candle');
+        candleRef.on('value', function(snapshot) {
+            if (snapshot.val() == 1) {
+                document.getElementById("flame1").style.visibility = "hidden";
+                document.getElementById("flame2").style.visibility = "hidden";
+                confetti.start();
+            } else {
+                document.getElementById("flame1").style.visibility = "visible";
+                document.getElementById("flame2").style.visibility = "visible";
+                confetti.stop();
+            }
+        });
+
+        var cakeRef = firebase.database().ref('Cake');
+        cakeRef.on('value', function(snapshot) {
+            if (snapshot.val() == 1) {
+                //cut the cake
+                confetti.stop();
+                document.getElementById("cake").src = "https://user-images.githubusercontent.com/7114965/83829916-fcdd3880-a6b1-11ea-9527-6a1c70c5743f.png";
+                document.getElementById("cake").style.width = "814px";
+                document.getElementById("cake").style.height = "400px";
+                document.getElementById("cake").style.marginLeft = "-85px";
+            } else {
+                document.getElementById("cake").src = "https://user-images.githubusercontent.com/7114965/83829842-d4553e80-a6b1-11ea-936f-3b491c592590.jpg";
+                document.getElementById("cake").style.width = "644px";
+                document.getElementById("cake").style.height = "480px";
+                document.getElementById("cake").style.marginLeft = "0px";
+            }
+        });
+
+        function candleBlow() {
+            firebase.database().ref("Candle").set(1);
+        }
+
+        function cutCake() {
+            firebase.database().ref("Cake").set(1);
+        }
+    </script>
+</body>
+
+</html>
